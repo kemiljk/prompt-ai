@@ -9,21 +9,21 @@ import OpenAISwift
 import SwiftUI
 import CoreData
 
+
 struct TextView: View {
     @ObservedObject var aPIViewModel = APIViewModel()
     @ObservedObject var viewModel = TextViewModel()
     @State private var promptText: String = ""
-//    @State private var messages: [Message] = []
     @FocusState private var textFieldIsFocused: Bool
     @State private var show_settings_modal: Bool = false
     @State private var clear_all_messages: Bool = false
     @State private var openAPIModal: Bool = false
     private let h_screen = UIScreen.main.bounds.height
-    
+        
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(entity: Message.entity(), sortDescriptors: [NSSortDescriptor(key: "messageDate", ascending: true)])
-    var messages: FetchedResults<Message>
+    @FetchRequest(entity: Message.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Message.messageDate, ascending: true)])
+    private var messages: FetchedResults<Message>
         
     var device = UIDevice.current.userInterfaceIdiom
     let modal = UIImpactFeedbackGenerator(style: .medium)
@@ -58,28 +58,47 @@ struct TextView: View {
                     .padding(.horizontal)
                 } else {
                     VStack(alignment: .leading) {
-                        ScrollViewReader { scrollView in
-                            ScrollView {
+//                        ScrollView {
+                            ScrollViewReader { scrollView in
                                 VStack(alignment: .leading, spacing: 8) {
-                                    ForEach(messages) { message in
-                                        MessageView(message: message)
+                                    List {
+                                        ForEach(messages, id: \.self) { message in
+                                            MessageView(message: message)
+                                                .listRowSeparator(.hidden)
+                                                .id(message.messageDate)
+                                        }
+                                        .onDelete(perform: removeMessages)
+                                        if viewModel.isLoading {
+                                            ThinkingView()
+                                        }
                                     }
-                                    if viewModel.isLoading {
-                                        ThinkingView()
+                                    .listStyle(PlainListStyle())
+                                }
+//                                .padding([.top, .horizontal])
+                                .onChange(of: messages.count) { value in
+                                    if let last = messages.last {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            withAnimation(.easeOut) {
+                                                if !messages.isEmpty {
+                                                    scrollView.scrollTo(last.messageDate, anchor: .top)
+                                                }
+                                            }
+                                        }
                                     }
                                 }
-                                .padding([.top, .horizontal])
-//                                .onChange(of: messages, perform: { value in
-//                                    DispatchQueue.main.async {
-//                                        withAnimation(.easeOut) {
-//                                            if !messages.isEmpty {
-//                                                scrollView.scrollTo(messages.last?.messageId, anchor: .top)
-//                                            }
-//                                        }
-//                                    }
-//                                })
+                                .onAppear {
+                                    if let last = messages.last {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            withAnimation(.easeOut) {
+                                                if !messages.isEmpty {
+                                                    scrollView.scrollTo(last.messageDate, anchor: .top)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                        }
+//                        }
                     }
                 }
                 Spacer()
@@ -166,11 +185,10 @@ struct TextView: View {
                 return
             }
             
-            //        let message = Message(messageText: promptText, isPrompt: true)
-            //        messages.append(message)
             let promptMessage = Message(context: viewContext)
             promptMessage.isPrompt = true
             promptMessage.messageText = promptText
+            promptMessage.messageDate = Date()
             saveItems()
             viewModel.send(text: promptText) { gpt in
                 self.promptText = ""
@@ -179,21 +197,15 @@ struct TextView: View {
                     let output = String(gpt[index...])
                     let responseMessage = Message(context: viewContext)
                     responseMessage.isPrompt = false
-                    //                let response = Message(messageText: output, isPrompt: false)
-                    DispatchQueue.main.async {
-                        responseMessage.messageText = output
-                        saveItems()
-                        //                    messages.append(response)
-                    }
+                    responseMessage.messageText = output
+                    responseMessage.messageDate = Date()
+                    saveItems()
                 } else {
                     let responseMessage = Message(context: viewContext)
                     responseMessage.isPrompt = false
-                    //                let response = Message(messageText: gpt, isPrompt: false)
-                    DispatchQueue.main.async {
-                        responseMessage.messageText = gpt
-                        saveItems()
-                        //                    messages.append(response)
-                    }
+                    responseMessage.messageText = gpt
+                    responseMessage.messageDate = Date()
+                    saveItems()
                 }
             }
         }
@@ -207,6 +219,20 @@ struct TextView: View {
             print(error)
         }
     }
+    
+    private func removeMessages(offsets: IndexSet) {
+        for index in offsets {
+            let message = messages[index]
+            viewContext.delete(message)
+        }
+    }
+    
+    private let itemFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
 }
 
 struct ContentView_Previews: PreviewProvider {

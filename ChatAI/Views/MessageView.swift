@@ -13,7 +13,6 @@ import SwiftUI
 //    let isPrompt: Bool
 //}
 
-
 struct MessageView: View {
     let message: Message
     @Environment(\.colorScheme) var colorScheme
