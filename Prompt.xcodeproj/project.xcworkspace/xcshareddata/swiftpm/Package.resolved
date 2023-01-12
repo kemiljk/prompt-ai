@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "codehighlighter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mortenjust/CodeHighlighter",
+      "state" : {
+        "branch" : "main",
+        "revision" : "5fe019a1829ee48af945f6b4da83bf51fedde016"
+      }
+    },
+    {
+      "identity" : "highlightr",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mortenjust/Highlightr",
+      "state" : {
+        "branch" : "master",
+        "revision" : "9deceba149e481f85a6a8f2eec72e5036cb8f7d8"
+      }
+    },
+    {
+      "identity" : "openaikit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MarcoDotIO/OpenAIKit",
+      "state" : {
+        "revision" : "8aa586e2cbace99e66bfa4a66cd40ae8c01c37ac",
+        "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "openaiswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adamrushy/OpenAISwift",
+      "state" : {
+        "revision" : "ed0c6f2dacbac4b3f4028751ed10fcfbf71a8a1d",
+        "version" : "1.1.1"
+      }
+    }
+  ],
+  "version" : 2
+}
