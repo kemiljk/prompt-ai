@@ -7,21 +7,15 @@
 
 import SwiftUI
 
-//struct Message: Equatable {
-//    let messageId = UUID().uuidString
-//    let messageText: String
-//    let isPrompt: Bool
-//}
-
 struct MessageView: View {
-    let message: Message
+    let message: MessageEntity
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         if message.isPrompt {
             HStack {
                 Spacer()
-                Text(message.messageText ?? "")
+                Text(message.text ?? "")
                     .foregroundColor(colorScheme == .light ? .white : .black)
                     .padding()
                     .background(.tint)
@@ -31,7 +25,7 @@ struct MessageView: View {
             .frame(maxWidth: .infinity)
         } else {
             HStack {
-                Text(message.messageText ?? "")
+                Text(message.text ?? "")
                     .font(.system(.body, design: .monospaced))
                     .foregroundColor(.primary)
                     .padding()

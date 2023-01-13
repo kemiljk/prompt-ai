@@ -7,12 +7,12 @@
 
 import CoreData
 
-struct PersistenceController {
-    static let shared = PersistenceController()
+struct CodePersistenceController {
+    static let shared = CodePersistenceController()
     let container: NSPersistentContainer
     
     init() {
-        container = NSPersistentContainer(name: "MessageDataModel")
+        container = NSPersistentContainer(name: "CodeDataModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error ) in
             if let error = error as NSError? {
                 print(error)

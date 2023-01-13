@@ -12,6 +12,7 @@ import UIKit
 struct ChatAIApp: App {
     @StateObject var SavedAPIKey: APIViewModel = APIViewModel()
     let persistenceController = PersistenceController.shared
+    let codePersistenceController = CodePersistenceController.shared
     var device = UIDevice.current.userInterfaceIdiom
     
     init() {
@@ -24,15 +25,16 @@ struct ChatAIApp: App {
                 if SavedAPIKey.SavedAPIKey.isEmpty {
                     InitView(key: SavedAPIKey.$SavedAPIKey)
                         .environmentObject(SavedAPIKey)
-                        .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 } else {
                     TabView {
                         Group {
                             TextView()
+                                .environment(\.managedObjectContext, persistenceController.container.viewContext)
                                 .tabItem {
                                     Label("Text", systemImage: "text.bubble.fill")
                                 }
                             CodeView()
+                                .environment(\.managedObjectContext, codePersistenceController.container.viewContext)
                                 .tabItem {
                                     Label("Code", systemImage: "terminal.fill")
                                 }
@@ -42,7 +44,6 @@ struct ChatAIApp: App {
                                 }
                         }
                         .environmentObject(SavedAPIKey)
-                        .environment(\.managedObjectContext, persistenceController.container.viewContext)
                         .toolbarBackground(.visible, for: .tabBar)
                         .toolbarBackground(Color("Grey"), for: .tabBar)
                     }
@@ -61,10 +62,12 @@ struct ChatAIApp: App {
             NavigationLink(destination: TextView(), label: {
                 Label("Text", systemImage: "text.bubble.fill")
             })
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .tag(0)
             NavigationLink(destination: CodeView(), label: {
                 Label("Code", systemImage: "terminal.fill")
             })
+            .environment(\.managedObjectContext, codePersistenceController.container.viewContext)
             .tag(1)
             NavigationLink(destination: ImageView(), label: {
                 Label("Image", systemImage: "photo.fill")
@@ -75,7 +78,6 @@ struct ChatAIApp: App {
         .tint(Color("DarkMint"))
         .listStyle(.sidebar)
         .environmentObject(SavedAPIKey)
-        .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
     
     var secondaryView: some View {

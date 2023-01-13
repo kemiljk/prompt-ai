@@ -12,7 +12,6 @@ import CodeHighlighter
 struct CodeView: View {
     @ObservedObject var viewModel = CodeViewModel()
     @State private var promptText: String = ""
-//    @State private var messages: [Message] = []
     @FocusState private var textFieldIsFocused: Bool
     @State private var show_settings_modal: Bool = false
     @State private var clear_all_messages: Bool = false
@@ -20,9 +19,8 @@ struct CodeView: View {
     
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(entity: Message.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Message.messageId, ascending: false)])
-    var messages: FetchedResults<Message>
-    
+    @FetchRequest(entity: CodeMessageEntity.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CodeMessageEntity.timestamp, ascending: true)])
+    private var messages: FetchedResults<CodeMessageEntity>
     let modal = UIImpactFeedbackGenerator(style: .medium)
     var device = UIDevice.current.userInterfaceIdiom
     
@@ -66,26 +64,41 @@ struct CodeView: View {
                     .padding(.horizontal)
                 } else {
                     VStack(alignment: .leading) {
-                        ScrollView {
-                            ScrollViewReader { scrollView in
-                                VStack(alignment: .leading, spacing: 8) {
-                                    ForEach(messages, id: \.messageId) { message in
+                        ScrollViewReader { scrollView in
+                            VStack(alignment: .leading, spacing: 8) {
+                                ScrollView {
+                                    ForEach(messages, id: \.self) { message in
                                         CodeMessageView(message: message)
+                                            .id(message.objectID)
                                     }
+                                    .padding([.top, .horizontal])
                                     if viewModel.isLoading {
                                         ThinkingView()
+                                            .padding([.top, .horizontal])
                                     }
                                 }
-                                .padding([.top, .horizontal])
-//                                .onChange(of: messages, perform: { value in
-//                                    DispatchQueue.main.async {
-//                                        withAnimation(.easeOut) {
-//                                            if !messages.isEmpty {
-//                                                scrollView.scrollTo(messages[messages.endIndex - 1].messageId, anchor: .top)
-//                                            }
-//                                        }
-//                                    }
-//                                })
+                            }
+                            .onChange(of: messages.count) { _ in
+                                if let last = messages.last {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        withAnimation(.easeOut) {
+                                            if !messages.isEmpty {
+                                                scrollView.scrollTo(last.objectID, anchor: .top)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .onAppear {
+                                if let last = messages.last {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        withAnimation(.easeOut) {
+                                            if !messages.isEmpty {
+                                                scrollView.scrollTo(last.objectID, anchor: .bottom)
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -132,17 +145,17 @@ struct CodeView: View {
             .navigationTitle("Code Prompt")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading:
-                    Button {
-//                        messages = []
-                        self.clear_all_messages = true
-                        self.modal.impactOccurred()
-                    } label: {
-                        Image(systemName: "eraser.line.dashed")
-                            .symbolVariant(.fill)
-                    }
-                    .disabled(messages.isEmpty)
-                ,
+//                leading:
+//                    Button {
+//                        // MARK: Fix this!
+//                        self.clear_all_messages = true
+//                        self.modal.impactOccurred()
+//                    } label: {
+//                        Image(systemName: "eraser.line.dashed")
+//                            .symbolVariant(.fill)
+//                    }
+//                    .disabled(messages.isEmpty)
+//                ,
                 trailing:
                     Button {
                         self.show_settings_modal = true
@@ -168,19 +181,51 @@ struct CodeView: View {
         }
     }
     
-    func submit() {
-        guard !promptText.trimmingCharacters(in: .whitespaces).isEmpty else {
-            return
-        }
-        
-//        let message = Message(messageText: promptText, isPrompt: true)
-//        messages.append(message)
-        viewModel.send(text: promptText) { gpt in
-            self.promptText = ""
-//            let response = Message(messageText: gpt, isPrompt: false)
-            DispatchQueue.main.async {
-//                messages.append(response)
+    private func submit() {
+        withAnimation {
+            guard !promptText.trimmingCharacters(in: .whitespaces).isEmpty else {
+                return
             }
+            
+            let promptMessage = CodeMessageEntity(context: viewContext)
+            promptMessage.isPrompt = true
+            promptMessage.text = promptText
+            promptMessage.timestamp = Date()
+            saveItems()
+            viewModel.send(text: promptText) { gpt in
+                self.promptText = ""
+                if(gpt.hasPrefix("\n\n")) {
+                    let index = gpt.index(gpt.startIndex, offsetBy: 2)
+                    let output = String(gpt[index...])
+                    let responseMessage = CodeMessageEntity(context: viewContext)
+                    responseMessage.isPrompt = false
+                    responseMessage.text = output
+                    responseMessage.timestamp = Date()
+                    saveItems()
+                } else {
+                    let responseMessage = CodeMessageEntity(context: viewContext)
+                    responseMessage.isPrompt = false
+                    responseMessage.text = gpt
+                    responseMessage.timestamp = Date()
+                    saveItems()
+                }
+            }
+        }
+    }
+    
+    private func saveItems() {
+        do {
+            try viewContext.save()
+        } catch {
+            let error = error as NSError
+            print(error)
+        }
+    }
+    
+    private func removeMessages(offsets: IndexSet) {
+        for index in offsets {
+            let message = messages[index]
+            viewContext.delete(message)
         }
     }
 }

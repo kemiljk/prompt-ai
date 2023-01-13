@@ -22,8 +22,8 @@ struct TextView: View {
         
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(entity: Message.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Message.messageDate, ascending: true)])
-    private var messages: FetchedResults<Message>
+    @FetchRequest(entity: MessageEntity.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \MessageEntity.timestamp, ascending: true)])
+    private var messages: FetchedResults<MessageEntity>
         
     var device = UIDevice.current.userInterfaceIdiom
     let modal = UIImpactFeedbackGenerator(style: .medium)
@@ -58,47 +58,43 @@ struct TextView: View {
                     .padding(.horizontal)
                 } else {
                     VStack(alignment: .leading) {
-//                        ScrollView {
-                            ScrollViewReader { scrollView in
-                                VStack(alignment: .leading, spacing: 8) {
-                                    List {
-                                        ForEach(messages, id: \.self) { message in
-                                            MessageView(message: message)
-                                                .listRowSeparator(.hidden)
-                                                .id(message.messageDate)
-                                        }
-                                        .onDelete(perform: removeMessages)
-                                        if viewModel.isLoading {
-                                            ThinkingView()
-                                        }
+                        ScrollViewReader { scrollView in
+                            VStack(alignment: .leading, spacing: 8) {
+                                ScrollView {
+                                    ForEach(messages, id: \.self) { message in
+                                        MessageView(message: message)
+                                            .id(message.objectID)
                                     }
-                                    .listStyle(PlainListStyle())
-                                }
-//                                .padding([.top, .horizontal])
-                                .onChange(of: messages.count) { value in
-                                    if let last = messages.last {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                            withAnimation(.easeOut) {
-                                                if !messages.isEmpty {
-                                                    scrollView.scrollTo(last.messageDate, anchor: .top)
-                                                }
-                                            }
-                                        }
+                                    .padding([.top, .horizontal])
+                                    if viewModel.isLoading {
+                                        ThinkingView()
+                                            .padding([.top, .horizontal])
                                     }
                                 }
-                                .onAppear {
-                                    if let last = messages.last {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                            withAnimation(.easeOut) {
-                                                if !messages.isEmpty {
-                                                    scrollView.scrollTo(last.messageDate, anchor: .top)
-                                                }
+                            }
+                            .onChange(of: messages.count) { _ in
+                                if let last = messages.last {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        withAnimation(.easeOut) {
+                                            if !messages.isEmpty {
+                                                scrollView.scrollTo(last.objectID, anchor: .top)
                                             }
                                         }
                                     }
                                 }
                             }
-//                        }
+                            .onAppear {
+                                if let last = messages.last {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        withAnimation(.easeOut) {
+                                            if !messages.isEmpty {
+                                                scrollView.scrollTo(last.objectID, anchor: .bottom)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 Spacer()
@@ -141,18 +137,17 @@ struct TextView: View {
             .navigationTitle("Text Prompt")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading:
-                    Button {
-                        // MARK: Fix this!
-//                        messages = []
-                        self.clear_all_messages = true
-                        self.modal.impactOccurred()
-                    } label: {
-                        Image(systemName: "eraser.line.dashed")
-                            .symbolVariant(.fill)
-                    }
-                    .disabled(messages.isEmpty)
-                ,
+//                leading:
+//                    Button {
+//                        // MARK: Fix this!
+//                        self.clear_all_messages = true
+//                        self.modal.impactOccurred()
+//                    } label: {
+//                        Image(systemName: "eraser.line.dashed")
+//                            .symbolVariant(.fill)
+//                    }
+//                    .disabled(messages.isEmpty)
+//                ,
                 trailing:
                     Button {
                         self.show_settings_modal = true
@@ -185,26 +180,26 @@ struct TextView: View {
                 return
             }
             
-            let promptMessage = Message(context: viewContext)
+            let promptMessage = MessageEntity(context: viewContext)
             promptMessage.isPrompt = true
-            promptMessage.messageText = promptText
-            promptMessage.messageDate = Date()
+            promptMessage.text = promptText
+            promptMessage.timestamp = Date()
             saveItems()
             viewModel.send(text: promptText) { gpt in
                 self.promptText = ""
                 if(gpt.hasPrefix("\n\n")) {
                     let index = gpt.index(gpt.startIndex, offsetBy: 2)
                     let output = String(gpt[index...])
-                    let responseMessage = Message(context: viewContext)
+                    let responseMessage = MessageEntity(context: viewContext)
                     responseMessage.isPrompt = false
-                    responseMessage.messageText = output
-                    responseMessage.messageDate = Date()
+                    responseMessage.text = output
+                    responseMessage.timestamp = Date()
                     saveItems()
                 } else {
-                    let responseMessage = Message(context: viewContext)
+                    let responseMessage = MessageEntity(context: viewContext)
                     responseMessage.isPrompt = false
-                    responseMessage.messageText = gpt
-                    responseMessage.messageDate = Date()
+                    responseMessage.text = gpt
+                    responseMessage.timestamp = Date()
                     saveItems()
                 }
             }
@@ -226,13 +221,6 @@ struct TextView: View {
             viewContext.delete(message)
         }
     }
-    
-    private let itemFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter
-    }()
 }
 
 struct ContentView_Previews: PreviewProvider {

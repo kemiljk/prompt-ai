@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF6E543B29717BC000E73512 /* MessageDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF6E543929717BC000E73512 /* MessageDataModel.xcdatamodeld */; };
+		CF6E543E29717BCD00E73512 /* CodeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF6E543C29717BCD00E73512 /* CodeDataModel.xcdatamodeld */; };
+		CF9C235729715949007083FF /* CodePersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C235629715949007083FF /* CodePersistenceController.swift */; };
 		CF9F70BF29605507000D86BD /* TextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70BE29605507000D86BD /* TextViewModel.swift */; };
 		CF9F70C12960555A000D86BD /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70C02960555A000D86BD /* ImageViewModel.swift */; };
 		CF9F70C3296056F5000D86BD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70C2296056F5000D86BD /* SettingsView.swift */; };
@@ -21,7 +24,6 @@
 		CFBB42372964C4BD004E311B /* CodeHighlighter in Frameworks */ = {isa = PBXBuildFile; productRef = CFBB42362964C4BD004E311B /* CodeHighlighter */; };
 		CFBB423B2966500E004E311B /* ThinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB423A2966500E004E311B /* ThinkingView.swift */; };
 		CFBB423D2966542E004E311B /* InitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB423C2966542E004E311B /* InitView.swift */; };
-		CFBB4245296B1ADF004E311B /* Message.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CFBB4243296B1ADF004E311B /* Message.xcdatamodeld */; };
 		CFBB424A297086AC004E311B /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB4249297086AC004E311B /* PersistenceController.swift */; };
 		CFFED200294A68C1001ADC12 /* ChatAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFED1FF294A68C1001ADC12 /* ChatAIApp.swift */; };
 		CFFED202294A68C1001ADC12 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFED201294A68C1001ADC12 /* TextView.swift */; };
@@ -35,6 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF6E543A29717BC000E73512 /* MessageDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MessageDataModel.xcdatamodel; sourceTree = "<group>"; };
+		CF6E543D29717BCD00E73512 /* CodeDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CodeDataModel.xcdatamodel; sourceTree = "<group>"; };
+		CF9C235629715949007083FF /* CodePersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePersistenceController.swift; sourceTree = "<group>"; };
 		CF9F70BE29605507000D86BD /* TextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewModel.swift; sourceTree = "<group>"; };
 		CF9F70C02960555A000D86BD /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		CF9F70C2296056F5000D86BD /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -48,7 +53,6 @@
 		CFBB422D2964C349004E311B /* CodeMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeMessageView.swift; sourceTree = "<group>"; };
 		CFBB423A2966500E004E311B /* ThinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinkingView.swift; sourceTree = "<group>"; };
 		CFBB423C2966542E004E311B /* InitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitView.swift; sourceTree = "<group>"; };
-		CFBB4244296B1ADF004E311B /* MessagesModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MessagesModel.xcdatamodel; sourceTree = "<group>"; };
 		CFBB4249297086AC004E311B /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		CFFED1FC294A68C1001ADC12 /* Prompt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prompt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFFED1FF294A68C1001ADC12 /* ChatAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAIApp.swift; sourceTree = "<group>"; };
@@ -95,11 +99,13 @@
 		CF9F70BD296054EA000D86BD /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB4243296B1ADF004E311B /* Message.xcdatamodeld */,
+				CF6E543929717BC000E73512 /* MessageDataModel.xcdatamodeld */,
+				CF6E543C29717BCD00E73512 /* CodeDataModel.xcdatamodeld */,
 				CF9F70BE29605507000D86BD /* TextViewModel.swift */,
 				CF9F70CA2962117C000D86BD /* CodeViewModel.swift */,
 				CF9F70C02960555A000D86BD /* ImageViewModel.swift */,
 				CFBB42262964B1E6004E311B /* APIViewModel.swift */,
+				CF9C235629715949007083FF /* CodePersistenceController.swift */,
 				CFBB4249297086AC004E311B /* PersistenceController.swift */,
 			);
 			path = ViewModels;
@@ -238,11 +244,12 @@
 				CF9F70C12960555A000D86BD /* ImageViewModel.swift in Sources */,
 				CFBB42292964BD01004E311B /* APILinkView.swift in Sources */,
 				CF9F70C3296056F5000D86BD /* SettingsView.swift in Sources */,
+				CF6E543B29717BC000E73512 /* MessageDataModel.xcdatamodeld in Sources */,
 				CFFED212294A762D001ADC12 /* ImageView.swift in Sources */,
 				CFBB4225296373A4004E311B /* SpacerView.swift in Sources */,
 				CF9F70C729621103000D86BD /* CodeView.swift in Sources */,
 				CFFED202294A68C1001ADC12 /* TextView.swift in Sources */,
-				CFBB4245296B1ADF004E311B /* Message.xcdatamodeld in Sources */,
+				CF9C235729715949007083FF /* CodePersistenceController.swift in Sources */,
 				CFFED21B294C96C8001ADC12 /* HideKeyboardExtension.swift in Sources */,
 				CF9F70C929621147000D86BD /* MessageView.swift in Sources */,
 				CF9F70BF29605507000D86BD /* TextViewModel.swift in Sources */,
@@ -252,6 +259,7 @@
 				CF9F70C529605E91000D86BD /* RoundedCornerShape.swift in Sources */,
 				CFBB423B2966500E004E311B /* ThinkingView.swift in Sources */,
 				CF9F70CB2962117C000D86BD /* CodeViewModel.swift in Sources */,
+				CF6E543E29717BCD00E73512 /* CodeDataModel.xcdatamodeld in Sources */,
 				CFBB423D2966542E004E311B /* InitView.swift in Sources */,
 				CFBB42272964B1E6004E311B /* APIViewModel.swift in Sources */,
 				CFBB424A297086AC004E311B /* PersistenceController.swift in Sources */,
@@ -529,13 +537,23 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		CFBB4243296B1ADF004E311B /* Message.xcdatamodeld */ = {
+		CF6E543929717BC000E73512 /* MessageDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				CFBB4244296B1ADF004E311B /* MessagesModel.xcdatamodel */,
+				CF6E543A29717BC000E73512 /* MessageDataModel.xcdatamodel */,
 			);
-			currentVersion = CFBB4244296B1ADF004E311B /* MessagesModel.xcdatamodel */;
-			path = Message.xcdatamodeld;
+			currentVersion = CF6E543A29717BC000E73512 /* MessageDataModel.xcdatamodel */;
+			path = MessageDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		CF6E543C29717BCD00E73512 /* CodeDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CF6E543D29717BCD00E73512 /* CodeDataModel.xcdatamodel */,
+			);
+			currentVersion = CF6E543D29717BCD00E73512 /* CodeDataModel.xcdatamodel */;
+			path = CodeDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

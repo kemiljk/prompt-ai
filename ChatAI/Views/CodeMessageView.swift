@@ -8,21 +8,14 @@
 import SwiftUI
 import CodeHighlighter
 
-struct CodeMessage: Equatable {
-    let codeMessageId = UUID().uuidString
-    let codeMessageText: String
-    let isPrompt: Bool
-}
-
 struct CodeMessageView: View {
-    let message: Message
-    @Environment(\.colorScheme) var colorScheme
+    let message: CodeMessageEntity
     
     var body: some View {
         if message.isPrompt {
             HStack {
                 Spacer()
-                CodeTextView(message.messageText ?? "")
+                CodeTextView(message.text ?? "")
                     .font(.system(.body, design: .monospaced))
                     .foregroundColor(.primary)
                     .padding()
@@ -33,7 +26,7 @@ struct CodeMessageView: View {
             .frame(maxWidth: .infinity)
         } else {
             HStack {
-                CodeTextView(message.messageText ?? "")
+                CodeTextView(message.text ?? "")
                     .font(.system(.body, design: .monospaced))
                     .foregroundColor(.primary)
                     .padding()
