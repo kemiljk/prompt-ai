@@ -35,7 +35,7 @@ final class TextViewModel: ObservableObject {
                     self.isLoading = false
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error)
                 DispatchQueue.main.async {
                     self.isLoading = false
                     self.error = true

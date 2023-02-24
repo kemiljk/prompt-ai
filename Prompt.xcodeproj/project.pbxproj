@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF58F25C29940C77002618F7 /* RequestsEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF58F25B29940C77002618F7 /* RequestsEmptyView.swift */; };
 		CF6E543B29717BC000E73512 /* MessageDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF6E543929717BC000E73512 /* MessageDataModel.xcdatamodeld */; };
-		CF6E543E29717BCD00E73512 /* CodeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF6E543C29717BCD00E73512 /* CodeDataModel.xcdatamodeld */; };
-		CF9C235729715949007083FF /* CodePersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C235629715949007083FF /* CodePersistenceController.swift */; };
 		CF9F70BF29605507000D86BD /* TextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70BE29605507000D86BD /* TextViewModel.swift */; };
 		CF9F70C12960555A000D86BD /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70C02960555A000D86BD /* ImageViewModel.swift */; };
 		CF9F70C3296056F5000D86BD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70C2296056F5000D86BD /* SettingsView.swift */; };
@@ -17,6 +16,13 @@
 		CF9F70C729621103000D86BD /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70C629621103000D86BD /* CodeView.swift */; };
 		CF9F70C929621147000D86BD /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70C829621147000D86BD /* MessageView.swift */; };
 		CF9F70CB2962117C000D86BD /* CodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F70CA2962117C000D86BD /* CodeViewModel.swift */; };
+		CFB92371297D3F07000266A0 /* MacButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB92370297D3F07000266A0 /* MacButtonStyle.swift */; };
+		CFB923BC297D5891000266A0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB92378297D5188000266A0 /* WidgetKit.framework */; };
+		CFB923BD297D5891000266A0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB9237A297D5188000266A0 /* SwiftUI.framework */; };
+		CFB923C0297D5891000266A0 /* resultWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB923BF297D5891000266A0 /* resultWidgetBundle.swift */; };
+		CFB923C2297D5891000266A0 /* resultWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB923C1297D5891000266A0 /* resultWidget.swift */; };
+		CFB923C4297D5891000266A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFB923C3297D5891000266A0 /* Assets.xcassets */; };
+		CFB923C8297D5891000266A0 /* resultWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CFB923BB297D5891000266A0 /* resultWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CFBB4225296373A4004E311B /* SpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB4224296373A4004E311B /* SpacerView.swift */; };
 		CFBB42272964B1E6004E311B /* APIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB42262964B1E6004E311B /* APIViewModel.swift */; };
 		CFBB42292964BD01004E311B /* APILinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB42282964BD01004E311B /* APILinkView.swift */; };
@@ -36,10 +42,34 @@
 		CFFED21B294C96C8001ADC12 /* HideKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFED21A294C96C8001ADC12 /* HideKeyboardExtension.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CFB923C6297D5891000266A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFFED1F4294A68C1001ADC12 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFB923BA297D5891000266A0;
+			remoteInfo = resultWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CFB9238A297D54F1000266A0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CFB923C8297D5891000266A0 /* resultWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		CF52756A298EAAFD007D9AC1 /* resultWidgetExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = resultWidgetExtensionRelease.entitlements; sourceTree = "<group>"; };
+		CF58F25B29940C77002618F7 /* RequestsEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsEmptyView.swift; sourceTree = "<group>"; };
 		CF6E543A29717BC000E73512 /* MessageDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MessageDataModel.xcdatamodel; sourceTree = "<group>"; };
-		CF6E543D29717BCD00E73512 /* CodeDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CodeDataModel.xcdatamodel; sourceTree = "<group>"; };
-		CF9C235629715949007083FF /* CodePersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePersistenceController.swift; sourceTree = "<group>"; };
 		CF9F70BE29605507000D86BD /* TextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewModel.swift; sourceTree = "<group>"; };
 		CF9F70C02960555A000D86BD /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		CF9F70C2296056F5000D86BD /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -47,6 +77,15 @@
 		CF9F70C629621103000D86BD /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		CF9F70C829621147000D86BD /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		CF9F70CA2962117C000D86BD /* CodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewModel.swift; sourceTree = "<group>"; };
+		CFB92370297D3F07000266A0 /* MacButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacButtonStyle.swift; sourceTree = "<group>"; };
+		CFB92378297D5188000266A0 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CFB9237A297D5188000266A0 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		CFB923BB297D5891000266A0 /* resultWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = resultWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFB923BF297D5891000266A0 /* resultWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultWidgetBundle.swift; sourceTree = "<group>"; };
+		CFB923C1297D5891000266A0 /* resultWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultWidget.swift; sourceTree = "<group>"; };
+		CFB923C3297D5891000266A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CFB923C5297D5891000266A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFB923C9297D5891000266A0 /* resultWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = resultWidgetExtension.entitlements; sourceTree = "<group>"; };
 		CFBB4224296373A4004E311B /* SpacerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacerView.swift; sourceTree = "<group>"; };
 		CFBB42262964B1E6004E311B /* APIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIViewModel.swift; sourceTree = "<group>"; };
 		CFBB42282964BD01004E311B /* APILinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILinkView.swift; sourceTree = "<group>"; };
@@ -61,12 +100,21 @@
 		CFFED205294A68C2001ADC12 /* ChatAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatAI.entitlements; sourceTree = "<group>"; };
 		CFFED207294A68C2001ADC12 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CFFED211294A762D001ADC12 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
-		CFFED216294B29DD001ADC12 /* Prompt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Prompt-Info.plist"; sourceTree = "<group>"; };
+		CFFED216294B29DD001ADC12 /* Prompt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Prompt-Info.plist"; sourceTree = "<group>"; };
 		CFFED217294B2D89001ADC12 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		CFFED21A294C96C8001ADC12 /* HideKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		CFB923B8297D5891000266A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB923BD297D5891000266A0 /* SwiftUI.framework in Frameworks */,
+				CFB923BC297D5891000266A0 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CFFED1F9294A68C1001ADC12 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,6 +139,7 @@
 				CFBB422D2964C349004E311B /* CodeMessageView.swift */,
 				CFBB42282964BD01004E311B /* APILinkView.swift */,
 				CFBB423A2966500E004E311B /* ThinkingView.swift */,
+				CF58F25B29940C77002618F7 /* RequestsEmptyView.swift */,
 				CFBB423C2966542E004E311B /* InitView.swift */,
 			);
 			path = Views;
@@ -100,22 +149,44 @@
 			isa = PBXGroup;
 			children = (
 				CF6E543929717BC000E73512 /* MessageDataModel.xcdatamodeld */,
-				CF6E543C29717BCD00E73512 /* CodeDataModel.xcdatamodeld */,
 				CF9F70BE29605507000D86BD /* TextViewModel.swift */,
 				CF9F70CA2962117C000D86BD /* CodeViewModel.swift */,
 				CF9F70C02960555A000D86BD /* ImageViewModel.swift */,
 				CFBB42262964B1E6004E311B /* APIViewModel.swift */,
-				CF9C235629715949007083FF /* CodePersistenceController.swift */,
 				CFBB4249297086AC004E311B /* PersistenceController.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		CFB92377297D5188000266A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CFB92378297D5188000266A0 /* WidgetKit.framework */,
+				CFB9237A297D5188000266A0 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CFB923BE297D5891000266A0 /* resultWidget */ = {
+			isa = PBXGroup;
+			children = (
+				CFB923BF297D5891000266A0 /* resultWidgetBundle.swift */,
+				CFB923C1297D5891000266A0 /* resultWidget.swift */,
+				CFB923C9297D5891000266A0 /* resultWidgetExtension.entitlements */,
+				CFB923C3297D5891000266A0 /* Assets.xcassets */,
+				CFB923C5297D5891000266A0 /* Info.plist */,
+			);
+			path = resultWidget;
+			sourceTree = "<group>";
+		};
 		CFFED1F3294A68C1001ADC12 = {
 			isa = PBXGroup;
 			children = (
+				CF52756A298EAAFD007D9AC1 /* resultWidgetExtensionRelease.entitlements */,
 				CFFED216294B29DD001ADC12 /* Prompt-Info.plist */,
 				CFFED1FE294A68C1001ADC12 /* ChatAI */,
+				CFB923BE297D5891000266A0 /* resultWidget */,
+				CFB92377297D5188000266A0 /* Frameworks */,
 				CFFED1FD294A68C1001ADC12 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -124,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				CFFED1FC294A68C1001ADC12 /* Prompt.app */,
+				CFB923BB297D5891000266A0 /* resultWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,6 +229,7 @@
 				CFFED21A294C96C8001ADC12 /* HideKeyboardExtension.swift */,
 				CF9F70C429605E91000D86BD /* RoundedCornerShape.swift */,
 				CFBB4224296373A4004E311B /* SpacerView.swift */,
+				CFB92370297D3F07000266A0 /* MacButtonStyle.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -164,6 +237,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		CFB923BA297D5891000266A0 /* resultWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFB923CA297D5891000266A0 /* Build configuration list for PBXNativeTarget "resultWidgetExtension" */;
+			buildPhases = (
+				CFB923B7297D5891000266A0 /* Sources */,
+				CFB923B8297D5891000266A0 /* Frameworks */,
+				CFB923B9297D5891000266A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = resultWidgetExtension;
+			productName = resultWidgetExtension;
+			productReference = CFB923BB297D5891000266A0 /* resultWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		CFFED1FB294A68C1001ADC12 /* Prompt */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CFFED20B294A68C2001ADC12 /* Build configuration list for PBXNativeTarget "Prompt" */;
@@ -171,10 +261,12 @@
 				CFFED1F8294A68C1001ADC12 /* Sources */,
 				CFFED1F9294A68C1001ADC12 /* Frameworks */,
 				CFFED1FA294A68C1001ADC12 /* Resources */,
+				CFB9238A297D54F1000266A0 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CFB923C7297D5891000266A0 /* PBXTargetDependency */,
 			);
 			name = Prompt;
 			packageProductDependencies = (
@@ -193,9 +285,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					CFB923BA297D5891000266A0 = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					CFFED1FB294A68C1001ADC12 = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -220,11 +315,20 @@
 			projectRoot = "";
 			targets = (
 				CFFED1FB294A68C1001ADC12 /* Prompt */,
+				CFB923BA297D5891000266A0 /* resultWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		CFB923B9297D5891000266A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB923C4297D5891000266A0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CFFED1FA294A68C1001ADC12 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -237,6 +341,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		CFB923B7297D5891000266A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB923C2297D5891000266A0 /* resultWidget.swift in Sources */,
+				CFB923C0297D5891000266A0 /* resultWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CFFED1F8294A68C1001ADC12 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,7 +362,6 @@
 				CFBB4225296373A4004E311B /* SpacerView.swift in Sources */,
 				CF9F70C729621103000D86BD /* CodeView.swift in Sources */,
 				CFFED202294A68C1001ADC12 /* TextView.swift in Sources */,
-				CF9C235729715949007083FF /* CodePersistenceController.swift in Sources */,
 				CFFED21B294C96C8001ADC12 /* HideKeyboardExtension.swift in Sources */,
 				CF9F70C929621147000D86BD /* MessageView.swift in Sources */,
 				CF9F70BF29605507000D86BD /* TextViewModel.swift in Sources */,
@@ -259,16 +371,96 @@
 				CF9F70C529605E91000D86BD /* RoundedCornerShape.swift in Sources */,
 				CFBB423B2966500E004E311B /* ThinkingView.swift in Sources */,
 				CF9F70CB2962117C000D86BD /* CodeViewModel.swift in Sources */,
-				CF6E543E29717BCD00E73512 /* CodeDataModel.xcdatamodeld in Sources */,
 				CFBB423D2966542E004E311B /* InitView.swift in Sources */,
 				CFBB42272964B1E6004E311B /* APIViewModel.swift in Sources */,
 				CFBB424A297086AC004E311B /* PersistenceController.swift in Sources */,
+				CF58F25C29940C77002618F7 /* RequestsEmptyView.swift in Sources */,
+				CFB92371297D3F07000266A0 /* MacButtonStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		CFB923C7297D5891000266A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFB923BA297D5891000266A0 /* resultWidgetExtension */;
+			targetProxy = CFB923C6297D5891000266A0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		CFB923CB297D5891000266A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = resultWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 8;
+				DEVELOPMENT_TEAM = WMGJ7B26TT;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = resultWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = resultWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kejk.ChatAI.resultWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Debug;
+		};
+		CFB923CC297D5891000266A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = resultWidgetExtensionRelease.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 8;
+				DEVELOPMENT_TEAM = WMGJ7B26TT;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = resultWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = resultWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.2.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kejk.ChatAI.resultWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		CFFED209294A68C2001ADC12 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -383,13 +575,15 @@
 		CFFED20C294A68C2001ADC12 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ChatAI/ChatAI.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatAI/Preview Content\"";
 				DEVELOPMENT_TEAM = WMGJ7B26TT;
@@ -397,6 +591,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Prompt-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = PromptAI;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Prompt wants to add photos to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -413,27 +609,31 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kejk.ChatAI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
 		CFFED20D294A68C2001ADC12 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ChatAI/ChatAI.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatAI/Preview Content\"";
 				DEVELOPMENT_TEAM = WMGJ7B26TT;
@@ -441,6 +641,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Prompt-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = PromptAI;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Prompt wants to add photos to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -457,20 +659,31 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kejk.ChatAI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		CFB923CA297D5891000266A0 /* Build configuration list for PBXNativeTarget "resultWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFB923CB297D5891000266A0 /* Debug */,
+				CFB923CC297D5891000266A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CFFED1F7294A68C1001ADC12 /* Build configuration list for PBXProject "Prompt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -544,16 +757,6 @@
 			);
 			currentVersion = CF6E543A29717BC000E73512 /* MessageDataModel.xcdatamodel */;
 			path = MessageDataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		CF6E543C29717BCD00E73512 /* CodeDataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				CF6E543D29717BCD00E73512 /* CodeDataModel.xcdatamodel */,
-			);
-			currentVersion = CF6E543D29717BCD00E73512 /* CodeDataModel.xcdatamodel */;
-			path = CodeDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

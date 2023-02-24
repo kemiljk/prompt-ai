@@ -17,8 +17,17 @@ struct SettingsView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var openAPIModal: Bool = false
     @State private var isUpdated: Bool = false
+    @State private var show_key_alert: Bool = false
+    let key = "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"
     
+    @FetchRequest(entity: APIUsesEntity.entity(), sortDescriptors: [])
+    private var apiRequests: FetchedResults<APIUsesEntity>
+        
+    #if os(iOS)
+    var device = UIDevice.current.userInterfaceIdiom
     let modal = UIImpactFeedbackGenerator(style: .medium)
+    #endif
+
     
     var body: some View {
         NavigationStack {
@@ -26,14 +35,18 @@ struct SettingsView: View {
                 Section("OpenAI API Key") {
                         VStack {
                             TextField("Enter OpenAI API Key", text: $SavedAPIKey.SavedAPIKey, axis: .vertical)
-                                .font(.system(.caption, design: .monospaced))
+                                .font(.system(device == .phone ? .caption : .body, design: .monospaced))
                                 .padding(.bottom, 16)
+                                .padding(.vertical, device == .mac ? 8 : 0)
                             Button {
                                 self.SavedAPIKey.SavedAPIKey = SavedAPIKey.SavedAPIKey
                                 self.editMode?.wrappedValue = .inactive
                                 self.isUpdated = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     self.isUpdated = false
+                                }
+                                if apiRequests.count >= 5 && SavedAPIKey.SavedAPIKey == key {
+                                    self.show_key_alert = true
                                 }
                             } label: {
                                 Text(isUpdated == false ? "Save" : isUpdated == true ? "Updated" : "Update")
@@ -51,17 +64,22 @@ struct SettingsView: View {
                     APILinkView()
                         .presentationDetents([.medium, .large])
                 }
+                .alert(isPresented: self.$show_key_alert) {
+                    Alert(title: Text("You've used your free allowance"), message: Text("You only get 5 free questions before you'll need to add your own API key, tap the 'Get your API key' button to find out more."), dismissButton: .default(Text("Got it!")))
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        self.dismiss()
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                            .font(.title2)
-                            .symbolRenderingMode(.hierarchical)
-                            .symbolVariant(.fill)
-                            .tint(.secondary)
+                    if device == .phone {
+                        Button {
+                            self.dismiss()
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                                .font(.title2)
+                                .symbolRenderingMode(.hierarchical)
+                                .symbolVariant(.fill)
+                                .tint(.secondary)
+                        }
                     }
                 }
             }

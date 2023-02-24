@@ -10,28 +10,40 @@ import SwiftUI
 import CodeHighlighter
 
 struct CodeView: View {
+    @ObservedObject var aPIViewModel = APIViewModel()
     @ObservedObject var viewModel = CodeViewModel()
     @State private var promptText: String = ""
     @FocusState private var textFieldIsFocused: Bool
     @State private var show_settings_modal: Bool = false
     @State private var clear_all_messages: Bool = false
+    @State private var query = ""
+    @State private var show_alert: Bool = false
+    #if os(iOS)
     private let h_screen = UIScreen.main.bounds.height
+    var device = UIDevice.current.userInterfaceIdiom
+    let modal = UIImpactFeedbackGenerator(style: .medium)
+    #endif
     
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: CodeMessageEntity.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CodeMessageEntity.timestamp, ascending: true)])
     private var messages: FetchedResults<CodeMessageEntity>
-    let modal = UIImpactFeedbackGenerator(style: .medium)
-    var device = UIDevice.current.userInterfaceIdiom
+    @FetchRequest(entity: APIUsesEntity.entity(), sortDescriptors: [])
+    private var apiRequests: FetchedResults<APIUsesEntity>
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 if messages.isEmpty {
                     VStack {
+                        #if os(iOS)
                         Spacer()
                             .frame(height: h_screen / 8)
-                        Text("Send your first prompt to get started")
+                        #else
+                        Spacer()
+                            .frame(height: 80)
+                        #endif
+                        Text("Send your first prompt to get started.")
                             .font(.headline.bold())
                         SpacerView(width: 0, height: 32)
                         Label("Why not try", systemImage: "info.circle")
@@ -39,19 +51,19 @@ struct CodeView: View {
                         SpacerView(width: 0, height: 16)
                         VStack(spacing: 12) {
                             VStack {
-                                CodeTextView("final class isObserved: \nObservableObject {")
+                                CodeTextView("final class isObserved: \nObservableObject {", language: "swift")
                             }
                             .padding(8)
                             .background(.thinMaterial)
                             .cornerRadius(8)
                             VStack {
-                                CodeTextView("const node = nodes.map( async (newNode: String) => {", language: "javascript")
+                                CodeTextView("const node = nodes.map(async(newNode: String) => {", language: "javascript")
                             }
                             .padding(8)
                             .background(.thinMaterial)
                             .cornerRadius(8)
                             VStack {
-                                CodeTextView("func incrementByOne() {")
+                                CodeTextView("func incrementByOne() {", language: "swift")
                             }
                             .padding(8)
                             .background(.thinMaterial)
@@ -106,11 +118,12 @@ struct CodeView: View {
                 Spacer()
                 VStack {
                     HStack {
-                        TextField("", text: $promptText, prompt: Text("Ask me anything...").foregroundColor(.secondary).font(.system(.body, design: .monospaced)), axis: .vertical)
+                        TextField("", text: $promptText, prompt: Text((apiRequests.count == 5 && aPIViewModel.SavedAPIKey == "") || (apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == "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") || aPIViewModel.SavedAPIKey.isEmpty ? "Enter your API key" : "Ask me anything...").foregroundColor(.secondary).font(.system(.body, design: .monospaced)), axis: .vertical)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                             .font(.system(.body, design: .monospaced))
                             .focused($textFieldIsFocused)
+                            .disabled((apiRequests.count == 5 && aPIViewModel.SavedAPIKey == "") || (apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == "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"))
                             .toolbar {
                                 ToolbarItemGroup(placement: .keyboard) {
                                     Spacer()
@@ -127,44 +140,62 @@ struct CodeView: View {
                         } else {
                             Button {
                                 submit()
+                                incrementRequest()
                                 self.hideKeyboard()
+                                if apiRequests.count == 5 && aPIViewModel.SavedAPIKey == "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" {
+                                    self.show_alert = true
+                                }
                             } label: {
                                 Image(systemName: "arrow.up.circle.fill")
                                     .font(.title2)
                             }
-                            .disabled(APIViewModel().SavedAPIKey.isEmpty || promptText.isEmpty)
+                            .keyboardShortcut(.defaultAction)
+                            .disabled(APIViewModel().SavedAPIKey.isEmpty || promptText.isEmpty || (apiRequests.count == 5 && aPIViewModel.SavedAPIKey == "") || (apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == "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"))
+                            .buttonStyle(MacButtonStyle())
                         }
                     }
                     .padding(.top, device == .phone ? 8 : 0)
                 }
-                .padding()
+                .padding(device == .phone || device == .pad ? 12 : 8)
+                .padding(.leading, device == .pad || device == .mac ? 4 : 0)
                 .background(Color("Grey"))
                 .cornerRadius(32, corners: device == .phone ? [.topLeft, .topRight] : [.allCorners])
-                .padding(device == .phone ? 0 : 24)
+                .padding(.vertical, device == .phone ? 0 : 24)
+                .padding(.horizontal, device == .phone ? 0 : 16)
+            }
+            .searchable(text: $query)
+            .onChange(of: query) { newValue in
+              messages.nsPredicate = searchPredicate(query: newValue)
+            }
+            .alert(isPresented: $show_alert) {
+                Alert(title: Text("Enter your API key"), message: Text("You'll need to enter your personal API key to ask more prompts"))
             }
             .navigationTitle("Code Prompt")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(
-//                leading:
-//                    Button {
-//                        // MARK: Fix this!
-//                        self.clear_all_messages = true
-//                        self.modal.impactOccurred()
-//                    } label: {
-//                        Image(systemName: "eraser.line.dashed")
-//                            .symbolVariant(.fill)
-//                    }
-//                    .disabled(messages.isEmpty)
-//                ,
-                trailing:
+            .navigationBarTitleDisplayMode(device == .phone ? .inline : .automatic)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        self.show_settings_modal = true
+                        self.clear_all_messages = true
                         self.modal.impactOccurred()
                     } label: {
-                        Image(systemName: "gearshape")
+                        Image(systemName: "eraser.line.dashed")
                             .symbolVariant(.fill)
                     }
-            )
+                    .buttonStyle(.borderless)
+                    .disabled(messages.isEmpty)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if device == .phone {
+                        Button {
+                            self.show_settings_modal = true
+                            self.modal.impactOccurred()
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .symbolVariant(.fill)
+                        }
+                    }
+                }
+            }
         }
         .sheet(isPresented: self.$show_settings_modal) {
             SettingsView()
@@ -174,7 +205,7 @@ struct CodeView: View {
             Alert(title: Text("We couldn't send your request"), message: Text("Try again later or double check your API key is still active"), dismissButton: .default(Text("Got it!")))
         }
         .alert(isPresented: self.$clear_all_messages) {
-            Alert(title: Text("Erased!"), message: Text("All messages are now cleared"), dismissButton: .default(Text("Got it!")))
+            Alert(title: Text("Are you sure?"), message: Text("This will remove all the messages from your device"), primaryButton: .destructive(Text("Delete all")) {deleteAllItems()}, secondaryButton: .default(Text("Cancel")))
         }
         .onAppear {
             viewModel.setup()
@@ -182,6 +213,8 @@ struct CodeView: View {
     }
     
     private func submit() {
+        viewModel.setup()
+        
         withAnimation {
             guard !promptText.trimmingCharacters(in: .whitespaces).isEmpty else {
                 return
@@ -194,23 +227,26 @@ struct CodeView: View {
             saveItems()
             viewModel.send(text: promptText) { gpt in
                 self.promptText = ""
-                if(gpt.hasPrefix("\n\n")) {
-                    let index = gpt.index(gpt.startIndex, offsetBy: 2)
-                    let output = String(gpt[index...])
-                    let responseMessage = CodeMessageEntity(context: viewContext)
-                    responseMessage.isPrompt = false
-                    responseMessage.text = output
-                    responseMessage.timestamp = Date()
-                    saveItems()
-                } else {
-                    let responseMessage = CodeMessageEntity(context: viewContext)
-                    responseMessage.isPrompt = false
-                    responseMessage.text = gpt
-                    responseMessage.timestamp = Date()
-                    saveItems()
-                }
+                let responseMessage = CodeMessageEntity(context: viewContext)
+                responseMessage.isPrompt = false
+                responseMessage.text = gpt.trimmingCharacters(in: .whitespacesAndNewlines)
+                responseMessage.timestamp = Date()
+                saveItems()
             }
         }
+    }
+    
+    private func incrementRequest() {
+        let increment = APIUsesEntity(context: viewContext)
+        let key = "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"
+        if apiRequests.count < 5 {
+            increment.requests += 1
+            saveItems()
+        }
+        if apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == key {
+            UserDefaults.standard.set("", forKey: "savedAPIKey")
+        }
+        print(apiRequests.count)
     }
     
     private func saveItems() {
@@ -222,11 +258,21 @@ struct CodeView: View {
         }
     }
     
-    private func removeMessages(offsets: IndexSet) {
-        for index in offsets {
-            let message = messages[index]
-            viewContext.delete(message)
+    private func deleteAllItems() {
+        messages.forEach { item in
+            viewContext.delete(item)
         }
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func searchPredicate(query: String) -> NSPredicate? {
+      if query.isEmpty { return nil }
+        return NSPredicate(format: "%K CONTAINS[cd] %@",
+       #keyPath(CodeMessageEntity.text), query)
     }
 }
 

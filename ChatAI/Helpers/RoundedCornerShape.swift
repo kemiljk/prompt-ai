@@ -5,6 +5,7 @@
 //  Created by Karl Koch on 31/12/2022.
 //
 
+#if os(iOS)
 import SwiftUI
 
 struct RoundedCorner: Shape {
@@ -22,3 +23,4 @@ extension View {
         clipShape( RoundedCorner(radius: radius, corners: corners) )
     }
 }
+#endif

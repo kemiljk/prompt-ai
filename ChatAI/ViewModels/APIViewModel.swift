@@ -9,8 +9,10 @@ import SwiftUI
 
 final class APIViewModel: ObservableObject {
     @AppStorage("savedAPIKey") var SavedAPIKey: String = ""
+//    @FetchRequest(entity: APIUsesEntity.entity(), sortDescriptors: []) var apiRequests: FetchedResults<APIUsesEntity>
     
     init() {
         self.SavedAPIKey = SavedAPIKey
+        
     }
 }

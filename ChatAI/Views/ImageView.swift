@@ -18,6 +18,7 @@ struct ImageView: View {
     
     
     @StateObject var sheetManager = SheetMananger()
+    @ObservedObject var aPIViewModel = APIViewModel()
     @ObservedObject var imageViewModel = ImageViewModel()
     @State var text: String = ""
     @State var image: UIImage?
@@ -25,17 +26,18 @@ struct ImageView: View {
     @State private var show_settings_modal: Bool = false
     @State private var refresh_text: String = ""
     @FocusState private var textFieldIsFocused: Bool
-    private let h_screen = UIScreen.main.bounds.height
-    
-    @Environment(\.colorScheme) private var colorScheme
-    
-    let save = UIImpactFeedbackGenerator(style: .medium)
-    let modal = UIImpactFeedbackGenerator(style: .medium)
     
     #if os(iOS)
-        var device = UIDevice.current.userInterfaceIdiom
+    private let h_screen = UIScreen.main.bounds.height
+    let save = UIImpactFeedbackGenerator(style: .medium)
+    let modal = UIImpactFeedbackGenerator(style: .medium)
+    var device = UIDevice.current.userInterfaceIdiom
     var portrait = UIDeviceOrientation.portrait.isPortrait
     #endif
+    
+    @Environment(\.colorScheme) private var colorScheme
+    @FetchRequest(entity: APIUsesEntity.entity(), sortDescriptors: [])
+    private var apiRequests: FetchedResults<APIUsesEntity>
     
     var body: some View {
         NavigationStack {
@@ -44,9 +46,14 @@ struct ImageView: View {
                         VStack {
                             if image == nil && !imageViewModel.isLoading {
                                 VStack {
+                                    #if os(iOS)
                                     Spacer()
                                         .frame(height: h_screen / 8)
-                                    Text("Send your first prompt to get started")
+                                    #else
+                                    Spacer()
+                                        .frame(height: 80)
+                                    #endif
+                                    Text("Send your first prompt to get started.")
                                         .font(.headline.bold())
                                     SpacerView(width: 0, height: 32)
                                     Label("Why not try", systemImage: "info.circle")
@@ -202,7 +209,8 @@ struct ImageView: View {
                     Spacer()
                     VStack {
                         HStack {
-                            TextField("", text: $text, prompt: Text("Enter an image request...").foregroundColor(.secondary), axis: .vertical)
+                            TextField("", text: $text, prompt: Text((apiRequests.count == 5 && aPIViewModel.SavedAPIKey == "") || (apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == "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") || aPIViewModel.SavedAPIKey.isEmpty ? "Enter your API key" : "Enter an image request...").foregroundColor(.secondary), axis: .vertical)
+                                .disabled((apiRequests.count == 5 && aPIViewModel.SavedAPIKey == "") || (apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == "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"))
                                 .toolbar {
                                     ToolbarItemGroup(placement: .keyboard) {
                                         Spacer()
@@ -222,6 +230,7 @@ struct ImageView: View {
                                     self.refresh_text = text
                                     Task {
                                         let result = await imageViewModel.generateImage(prompt: text)
+                                        incrementRequest()
                                         self.text = ""
                                         if result == nil {
                                             print("Could not load an image")
@@ -234,28 +243,35 @@ struct ImageView: View {
                                     Image(systemName: "arrow.up.circle.fill")
                                         .font(.title2)
                                 }
-                                .disabled(APIViewModel().SavedAPIKey.isEmpty || text.isEmpty)
+                                .keyboardShortcut(.defaultAction)
+                                .disabled(APIViewModel().SavedAPIKey.isEmpty || text.isEmpty || (apiRequests.count == 5 && aPIViewModel.SavedAPIKey == "") || (apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == "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"))
+                                .buttonStyle(MacButtonStyle())
                             }
                         }
                         .padding(.top, device == .phone ? 8 : 0)
                     }
-                    .padding()
+                    .padding(device == .phone || device == .pad ? 12 : 8)
+                    .padding(.leading, device == .pad || device == .mac ? 4 : 0)
                     .background(Color("Grey"))
                     .cornerRadius(32, corners: device == .phone ? [.topLeft, .topRight] : [.allCorners])
-                    .padding(device == .phone ? 0 : 24)
+                    .padding(.vertical, device == .phone ? 0 : 24)
+                    .padding(.horizontal, device == .phone ? 0 : 16)
             }
             .navigationTitle("Image Prompt")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(
-                trailing:
-                    Button {
-                        self.show_settings_modal = true
-                        self.modal.impactOccurred()
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .symbolVariant(.fill)
+            .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        if device == .phone {
+                        Button {
+                            self.show_settings_modal = true
+                            self.modal.impactOccurred()
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .symbolVariant(.fill)
+                        }
                     }
-            )
+                }
+            }
         }
         .sheet(isPresented: self.$show_settings_modal) {
             SettingsView()
@@ -267,6 +283,18 @@ struct ImageView: View {
         .onAppear {
             imageViewModel.setup()
         }
+    }
+    
+    private func incrementRequest() {
+        let increment = APIUsesEntity()
+        let key = "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"
+        if apiRequests.count < 5 {
+            increment.requests += 1
+        }
+        if apiRequests.count >= 5 && aPIViewModel.SavedAPIKey == key {
+            UserDefaults.standard.set("", forKey: "savedAPIKey")
+        }
+        print(apiRequests.count)
     }
 }
 
